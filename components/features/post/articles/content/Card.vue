@@ -76,6 +76,7 @@ const { data: articles, error: fetchError } = await useAsyncData(
 );
 
 onMounted(() => {
+  console.log("Article", articles);
   if (articles.value) {
     articleStore.setArticles(articles.value);
     isLoading.value = false;
@@ -86,6 +87,7 @@ onMounted(() => {
     isLoading.value = false;
   }
 });
+isLoading.value = false;
 </script>
 
 <style scoped>
