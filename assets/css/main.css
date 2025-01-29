@@ -1,0 +1,4 @@
+body {
+  @apply font-inter; /* Apply 'Inter' as the default font */
+  color: #222222;
+}
