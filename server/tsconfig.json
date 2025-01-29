@@ -1,3 +1,13 @@
 {
-  "extends": "../.nuxt/tsconfig.server.json"
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["scripts/**/*.ts", ".nuxt/**/*.ts"],
+  "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build && npx prisma generate && tsx scripts/copy-database.ts",
+    "build": "nuxt build && npx prisma generate && npx ts-node --loader ts-node/esm scripts/copy-database.ts",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
