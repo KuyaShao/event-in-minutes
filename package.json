@@ -11,6 +11,9 @@
     "test": "vitest",
     "prisma:seed": "npx prisma db seed"
   },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
+  },
   "dependencies": {
     "@nuxt/fonts": "^0.10.3",
     "@nuxt/image": "^1.9.0",

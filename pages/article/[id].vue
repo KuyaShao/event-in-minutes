@@ -1,6 +1,13 @@
 <template>
   <div class="flex flex-col items-center mt-20 px-4 md:px-0">
-    <div class="w-full max-w-[611px] mb-5" v-if="article && !error">
+    <!-- Loading Screen -->
+    <div v-if="loading" class="loading-screen">
+      <div class="loader"></div>
+      <p class="text-center">Loading article...</p>
+    </div>
+
+    <!-- Article Content (Only visible when article is loaded) -->
+    <div v-if="article && !error" class="w-full max-w-[611px] mb-5">
       <h3 class="text-left text-blue-600" data-testid="category">
         {{ article?.category.name }}
       </h3>
@@ -30,9 +37,7 @@
       </p>
     </div>
 
-    <!-- Loading or error state -->
-    <div v-if="!article && !error" class="loading-indicator">Loading...</div>
-
+    <!-- Error State -->
     <div v-if="error" class="error-message">
       Oops! We couldn't fetch the article. Please try again later.
     </div>
@@ -81,6 +86,8 @@ const { data: article, error } = await useAsyncData<Article>(
   () => $fetch(`/api/article/${articleId}`)
 );
 
+const loading = !article && !error;
+
 if (error) {
   console.error("Error fetching article:", error);
 }
@@ -93,13 +100,41 @@ p {
   text-align: left;
 }
 
-/* Example styles for loading and error states */
-.loading-indicator {
-  text-align: center;
+/* Styles for loading screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
   font-size: 1.2rem;
-  color: gray;
+  z-index: 9999;
 }
 
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Example styles for error state */
 .error-message {
   color: red;
   font-size: 1rem;
