@@ -6,9 +6,16 @@
   package = "@netlify/plugin-functions-install-core"
 
 [functions]
-  directory = "functions"
+  directory = "functions"  # Directory where your Netlify functions are stored
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# If you're using API routes as serverless functions, specify the correct functions folder
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
