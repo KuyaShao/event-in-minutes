@@ -73,6 +73,39 @@ async function main() {
     },
   });
 
+  await prisma.post.create({
+    data: {
+      title: "Lifestyle Tips",
+      content: "This is a lifestyle post content.",
+      published: true,
+      author: {
+        connect: { id: regularUser.id },
+      },
+      img: "/image/articles/article-img2.png",
+      date: new Date(),
+      isFeatured: false,
+      category: {
+        connect: { id: lifestyleCategory.id },
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "Lifestyle Tips",
+      content: "This is a lifestyle post content.",
+      published: true,
+      author: {
+        connect: { id: regularUser.id },
+      },
+      img: "/image/articles/article-img3.png",
+      date: new Date(),
+      isFeatured: false,
+      category: {
+        connect: { id: lifestyleCategory.id },
+      },
+    },
+  });
   console.log("Seeding complete!");
 }
 
