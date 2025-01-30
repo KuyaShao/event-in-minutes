@@ -26,12 +26,7 @@ export default defineEventHandler(async (event) => {
     role: user.role,
   });
 
-  setCookie(event, "auth", authData, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    path: "/",
-  });
+  setCookie(event, "auth", authData);
 
   return {
     email: user.email,
