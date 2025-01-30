@@ -129,4 +129,6 @@ yarn dev
 bun run dev
 ### The app should now be available at http://localhost:3000.
 
+
+you can see the users email and password on prisma/seed.ts
 ```
