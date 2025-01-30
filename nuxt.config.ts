@@ -8,7 +8,13 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
     },
   },
-
+  build: {
+    analyze: true, // This will give a detailed build analysis
+  },
+  routeRules: {
+    "/login": { ssr: true },
+    "/": { isr: 3600, prerender: true },
+  },
   modules: [
     "@prisma/nuxt",
     "@nuxtjs/tailwindcss",
@@ -30,11 +36,6 @@ export default defineNuxtConfig({
           },
         },
       },
-    },
-  },
-  build: {
-    preload: {
-      exclude: ["**/*.json", "**/meta/*.json"],
     },
   },
 });

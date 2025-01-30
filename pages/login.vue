@@ -11,8 +11,9 @@
         Login
       </h1>
       <form
-        @submit.prevent="login"
+        @submit.prevent="submit"
         class="mt-4 space-y-4"
+        method="POST"
         data-testid="login-form"
       >
         <div>
@@ -68,17 +69,16 @@ import { useRouter } from "vue-router";
 import { useCookie } from "#app";
 import { useAuthStore } from "~/stores/auth";
 
-definePageMeta({
-  middleware: "auth",
-});
-
 const email = ref("");
 const password = ref("");
 const error = ref<string | null>(null);
 const router = useRouter();
 const authStore = useAuthStore();
 
-const login = async () => {
+async function submit() {
+  console.log("Login button clicked");
+  console.log("Email:", email.value);
+  console.log("Password:", password.value);
   console.log("Login button clicked");
 
   error.value = null;
@@ -103,7 +103,11 @@ const login = async () => {
   } catch (err) {
     error.value = "Invalid email or password. Please try again.";
   }
-};
+}
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>
 
 <style scoped>
