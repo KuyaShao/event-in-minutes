@@ -35,13 +35,4 @@ export default defineNuxtConfig({
       },
     },
   },
-  head: {
-    link: [
-      {
-        rel: "preload",
-        href: "/login/_payload.json",
-        as: "fetch",
-      },
-    ],
-  },
 });
