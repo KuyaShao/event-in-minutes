@@ -60,15 +60,15 @@ import AvatarIcon from "./Icons/AvatarIcon.vue";
 import { useAuthStore } from "~/stores/auth";
 
 const authStore = useAuthStore();
-const isLoggedIn = ref(authStore.isLoggedIn());
-const isAdmin = ref(false);
+const isLoggedIn = ref(authStore.isLoggedIn); // ✅ No parentheses
+const isAdmin = ref(authStore.user?.role === "admin");
 
-// Watch for changes in the user state to update isLoggedIn and isAdmin
+// Watch for changes in the user state
 watch(
   () => authStore.user,
   () => {
-    isLoggedIn.value = authStore.isLoggedIn(); // Update login status
-    isAdmin.value = authStore.user?.role === "admin"; // Check if the user is an admin
+    isLoggedIn.value = authStore.isLoggedIn; // ✅ No parentheses
+    isAdmin.value = authStore.user?.role === "admin";
   },
   { immediate: true }
 );

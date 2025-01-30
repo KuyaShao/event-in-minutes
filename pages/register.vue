@@ -94,7 +94,7 @@ const register = async () => {
         name: name.value,
       },
     });
-    router.push("/login");
+    router.push({ path: "/login" });
   } catch (err) {
     error.value = "An error occurred during registration.";
     console.error(err);

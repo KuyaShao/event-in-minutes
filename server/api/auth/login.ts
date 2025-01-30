@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { email, password } = body;
 
+  if (process.client) return;
   const user = await prisma.user.findUnique({
     where: { email },
   });

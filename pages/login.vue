@@ -68,40 +68,39 @@ import { useRouter } from "vue-router";
 import { useCookie } from "#app";
 import { useAuthStore } from "~/stores/auth";
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const email = ref("");
 const password = ref("");
 const error = ref<string | null>(null);
 const router = useRouter();
 const authStore = useAuthStore();
 
-const login = async (event: Event) => {
-  event.preventDefault();
+const login = async () => {
   console.log("Login button clicked");
 
   error.value = null;
 
   try {
-    console.log("Sending login request:", {
-      email: email.value,
-      password: password.value,
-    });
     const user = await $fetch("/api/auth/login", {
       method: "POST",
       body: {
         email: email.value,
         password: password.value,
       },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-
-    console.log("User", user);
 
     const authCookie = useCookie("auth");
     authCookie.value = JSON.stringify(user);
     authStore.setUser(user);
 
-    router.push("/");
+    router.push({ path: "/" });
   } catch (err) {
-    console.error("Login error:", err);
     error.value = "Invalid email or password. Please try again.";
   }
 };

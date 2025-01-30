@@ -1,59 +1,46 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useCookie } from "#app";
 import { useAuth } from "~/composables/useAuthUser";
 import type { User } from "~/models/articles";
-import { useCookie } from "#app"; // Ensure you are importing `useCookie` from Nuxt.
 
 export const useAuthStore = defineStore("auth", () => {
-  const { getUser: getAuthUser, isLoggedIn: isAuthLoggedIn } = useAuth();
+  const { getUser: getAuthUser } = useAuth();
+  const authCookie = useCookie<User | null>("auth");
 
-  // Initialize `user` ref with the user data either from a composable or cookie
-  const user = ref<User | null | undefined>(getAuthUser());
+  // ✅ Fix: Directly use `authCookie.value` without parsing
+  const user = ref<User | null>(
+    process.server ? null : authCookie.value ?? getAuthUser()
+  );
 
-  // Store user in Pinia and in the cookie
-  const setUser = (userData: User) => {
-    user.value = userData;
-    const authCookie = useCookie("auth", {
-      maxAge: 60 * 60 * 24 * 7, // Cookie duration: 7 days
-      secure: process.env.NODE_ENV === "production", // Secure cookie in production
-      path: "/", // Ensure cookie is accessible to all paths
-    });
-    authCookie.value = JSON.stringify(userData); // Set cookie value
-  };
+  const isLoggedIn = computed((): boolean => {
+    if (!user.value && process.client) {
+      user.value = authCookie.value ?? null;
+    }
+    return user.value !== null && user.value !== undefined;
+  });
 
-  // Fetch user from the store or cookie if not already set
-  const getUser = (): User | null | undefined => {
+  const getUser = (): User | null => {
     if (!user.value) {
-      // Check if we're on the client side and the cookie is available
-      if (process.client) {
-        const authCookie = useCookie("auth");
-        user.value = authCookie.value ? JSON.parse(authCookie.value) : null;
-      }
+      user.value = authCookie.value ?? null;
     }
     return user.value;
   };
 
-  // Check if the user is logged in based on the user object being set
-  const isLoggedIn = (): boolean => {
-    return user.value !== null && user.value !== undefined;
+  const setUser = (userData: User) => {
+    user.value = userData;
+    authCookie.value = userData; // ✅ Fix: Store object directly, no JSON.stringify
   };
 
-  // Logout functionality that clears the user and the cookie
   const logout = async () => {
     try {
-      await $fetch("/api/auth/logout", {
-        method: "POST", // Assuming you have a logout API
-      });
+      await $fetch("/api/auth/logout", { method: "POST" });
       user.value = null;
-
-      // Clear the cookie upon logout
-      const authCookie = useCookie("auth");
-      authCookie.value = null; // Remove cookie
+      authCookie.value = null;
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
 
-  // Return the methods and state from the store
   return { setUser, getUser, isLoggedIn, logout, user };
 });

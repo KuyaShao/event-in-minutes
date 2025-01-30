@@ -3,15 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["@/assets/css/main.css"],
   devtools: { enabled: true },
-  routeRules: {
-    "/": { prerender: true },
-
-    "/api/*": { cache: { maxAge: 60 * 60 } },
-    "/api/**": { cors: true },
-    "/old-page": {
-      redirect: { to: "/new-page", statusCode: 302 },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
     },
   },
+
   modules: [
     "@prisma/nuxt",
     "@nuxtjs/tailwindcss",
@@ -33,6 +30,11 @@ export default defineNuxtConfig({
           },
         },
       },
+    },
+  },
+  build: {
+    preload: {
+      exclude: ["**/*.json", "**/meta/*.json"],
     },
   },
 });
