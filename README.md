@@ -36,8 +36,8 @@ Clone the project repository to your local machine:
 git clone <your-repository-url>
 cd <your-project-directory>
 
-### 2. Install Dependencies
-### Install the necessary dependencies for the project using your preferred package manager:
+2. Install Dependencies
+Install the necessary dependencies for the project using your preferred package manager:
 
 # Using npm
 npm install
@@ -51,11 +51,11 @@ yarn install
 # Using bun
 bun install
 
-### 3. Configure Prisma for POSTGRESQL
-### Update your Prisma schema and .env file to use POSTGRESQL.
+3. Configure Prisma for POSTGRESQL
+Update your Prisma schema and .env file to use POSTGRESQL.
 
-### Update schema.prisma for POSTGRESQL
-### In prisma/schema.prisma, ensure you have the following configuration for POSTGRESQL:
+Update schema.prisma for POSTGRESQL
+In prisma/schema.prisma, ensure you have the following configuration for POSTGRESQL:
 
 generator client {
   provider = "prisma-client-js"
@@ -100,11 +100,11 @@ model Category {
 ## In your .env file, configure the DATABASE_URL for your POSTGRESQL database:
 DATABASE_URL="postgresql://username:password@localhost:PortNumber/database_name"
 
-## 4. Clear Old Migrations (If Necessary)
+4. Clear Old Migrations (If Necessary)
 ## If you're switching from SQLite or starting fresh, you may need to clear any previous migrations. Delete the migration folder:
 rm -rf prisma/migrations
 
-## 5. Create New Migrations
+5. Create New Migrations
 ## After clearing old migrations, generate a new migration for POSTGRESQL:
 
 npx prisma migrate dev --name init  # Create and apply the migration to POSTGRESQL

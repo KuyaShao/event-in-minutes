@@ -55,6 +55,16 @@
           Register
         </button>
       </form>
+
+      <!-- Login Link -->
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <NuxtLink to="/login" class="text-blue-600 hover:text-blue-800">
+            Login here
+          </NuxtLink>
+        </p>
+      </div>
     </div>
   </div>
 </template>

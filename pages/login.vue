@@ -48,6 +48,16 @@
           Login
         </button>
       </form>
+
+      <!-- Register Link -->
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">
+          Don't have an account?
+          <NuxtLink to="/register" class="text-blue-600 hover:text-blue-800">
+            Register here
+          </NuxtLink>
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -11,6 +11,14 @@
       <span class="hidden sm:block">Top Vendors, Apply Now!</span>
       <MainBurgerIcon />
 
+      <!-- Display login link when not logged in -->
+      <div v-if="!isLoggedIn">
+        <NuxtLink to="/login" class="text-blue-500 hover:text-blue-700">
+          Login
+        </NuxtLink>
+      </div>
+
+      <!-- Show Avatar and dropdown when logged in -->
       <div
         v-if="isLoggedIn"
         class="relative"
@@ -18,13 +26,19 @@
         @mouseleave="scheduleHideDropdown"
       >
         <AvatarIcon @click="toggleDropdown" />
-
         <div
           v-if="dropdownVisible"
           class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-20"
           @mouseenter="clearHideDropdown"
           @mouseleave="scheduleHideDropdown"
         >
+          <!-- Admin link -->
+          <div v-if="isAdmin" class="px-4 py-2 text-gray-800 hover:bg-gray-200">
+            <NuxtLink to="/admin" class="w-full text-left"
+              >Admin Dashboard</NuxtLink
+            >
+          </div>
+          <!-- Logout link -->
           <button
             @click="logout"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
@@ -38,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, nextTick, onMounted } from "vue";
+import { ref, watch, nextTick } from "vue";
 import MainLogo from "./Icons/MainLogo.vue";
 import ContactInfo from "./Icons/ContactInfo.vue";
 import MainBurgerIcon from "./Icons/MainBurgerIcon.vue";
@@ -47,11 +61,14 @@ import { useAuthStore } from "~/stores/auth";
 
 const authStore = useAuthStore();
 const isLoggedIn = ref(authStore.isLoggedIn());
+const isAdmin = ref(false);
 
+// Watch for changes in the user state to update isLoggedIn and isAdmin
 watch(
   () => authStore.user,
   () => {
-    isLoggedIn.value = authStore.isLoggedIn(); // Update the login status when the user state changes
+    isLoggedIn.value = authStore.isLoggedIn(); // Update login status
+    isAdmin.value = authStore.user?.role === "admin"; // Check if the user is an admin
   },
   { immediate: true }
 );
@@ -79,11 +96,8 @@ const clearHideDropdown = () => {
 
 const logout = async () => {
   await authStore.logout();
-
   isLoggedIn.value = false;
-
   await nextTick();
-
   dropdownVisible.value = false;
 };
 </script>
