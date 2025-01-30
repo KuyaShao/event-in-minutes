@@ -13,10 +13,5 @@ export default defineEventHandler(async () => {
     },
   });
 
-  const transformedPosts = posts.map((post) => ({
-    ...post,
-    content: post.content === null ? undefined : post.content,
-  }));
-
-  return transformedPosts;
+  return posts;
 });

@@ -16,7 +16,11 @@
   </div>
 
   <div v-else>
-    <div class="flex flex-wrap justify-between w-full mt-5 lg:mx-0">
+    <!-- Check if displayedArticles is correctly populated -->
+    <div
+      v-if="articleStore.displayedArticles.length > 0"
+      class="flex flex-wrap justify-between w-full mt-5 lg:mx-0"
+    >
       <div
         class="flex flex-col mb-10 w-full md:w-1/2 lg:w-1/3 lg:pr-3"
         v-for="article in articleStore.displayedArticles"
@@ -46,6 +50,12 @@
         </p>
       </div>
     </div>
+
+    <!-- Fallback message if no articles found -->
+    <div v-else>
+      <p>No articles available.</p>
+    </div>
+
     <button
       @click="articleStore.showMore"
       class="px-4 py-2 border rounded-full text-gray-700 border-gray-400 focus:outline-none hover:border-gray-600"
@@ -70,24 +80,23 @@ const articleStore = useArticleStore();
 
 const isLoading = ref(true);
 
-const { data: articles, error: fetchError } = await useAsyncData(
-  "articles",
-  () => $fetch("/api/article")
-);
+// Fetch articles inside `onMounted` to ensure it runs after component is mounted
+onMounted(async () => {
+  try {
+    const articles = await $fetch("/api/article");
+    console.log("Fetched Articles:", articles);
 
-onMounted(() => {
-  console.log("Article", articles);
-  if (articles.value) {
-    articleStore.setArticles(articles.value);
-    isLoading.value = false;
-  }
-
-  if (fetchError) {
+    if (Array.isArray(articles) && articles.length > 0) {
+      articleStore.setArticles(articles);
+    } else {
+      console.warn("No articles found.");
+    }
+  } catch (fetchError) {
     console.error("Error fetching articles:", fetchError);
+  } finally {
     isLoading.value = false;
   }
 });
-isLoading.value = false;
 </script>
 
 <style scoped>
