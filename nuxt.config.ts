@@ -13,7 +13,6 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/login": { ssr: true },
-    "/": { isr: 3600, prerender: true },
   },
   modules: [
     "@prisma/nuxt",
