@@ -16,7 +16,6 @@
   </div>
 
   <div v-else>
-    <!-- Check if displayedArticles is correctly populated -->
     <div
       v-if="articleStore.displayedArticles.length > 0"
       class="flex flex-wrap justify-between w-full mt-5 lg:mx-0"
@@ -51,7 +50,6 @@
       </div>
     </div>
 
-    <!-- Fallback message if no articles found -->
     <div v-else>
       <p>No articles available.</p>
     </div>
@@ -67,7 +65,7 @@
 
 <script lang="ts" setup>
 import { useArticleStore } from "~/stores/articles";
-import { ref, onMounted } from "vue";
+import { useAsyncData } from "#app";
 
 defineProps({
   screen: {
@@ -80,23 +78,23 @@ const articleStore = useArticleStore();
 
 const isLoading = ref(true);
 
-// Fetch articles inside `onMounted` to ensure it runs after component is mounted
-onMounted(async () => {
-  try {
-    const articles = await $fetch("/api/article");
-    console.log("Fetched Articles:", articles);
-
-    if (Array.isArray(articles) && articles.length > 0) {
-      articleStore.setArticles(articles);
-    } else {
-      console.warn("No articles found.");
-    }
-  } catch (fetchError) {
-    console.error("Error fetching articles:", fetchError);
-  } finally {
-    isLoading.value = false;
+const { data: articles, error: fetchError } = await useAsyncData(
+  "articles",
+  () => $fetch("/api/article"),
+  {
+    ssr: true,
   }
-});
+);
+
+if (articles.value) {
+  articleStore.setArticles(articles.value);
+} else if (fetchError) {
+  console.error("Error fetching articles:", fetchError);
+} else {
+  console.warn("No articles found.");
+}
+
+isLoading.value = false;
 </script>
 
 <style scoped>
