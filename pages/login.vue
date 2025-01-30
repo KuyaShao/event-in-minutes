@@ -74,13 +74,17 @@ const error = ref<string | null>(null);
 const router = useRouter();
 const authStore = useAuthStore();
 
-definePageMeta({
-  middleware: "auth",
-});
+const login = async (event: Event) => {
+  event.preventDefault();
+  console.log("Login button clicked");
 
-const login = async () => {
   error.value = null;
+
   try {
+    console.log("Sending login request:", {
+      email: email.value,
+      password: password.value,
+    });
     const user = await $fetch("/api/auth/login", {
       method: "POST",
       body: {
@@ -88,15 +92,16 @@ const login = async () => {
         password: password.value,
       },
     });
+
     console.log("User", user);
 
     const authCookie = useCookie("auth");
     authCookie.value = JSON.stringify(user);
-
     authStore.setUser(user);
 
     router.push("/");
   } catch (err) {
+    console.error("Login error:", err);
     error.value = "Invalid email or password. Please try again.";
   }
 };
