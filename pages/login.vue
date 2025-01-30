@@ -12,9 +12,9 @@
       </h1>
       <form
         @submit.prevent="submit"
-        class="mt-4 space-y-4"
         method="POST"
         data-testid="login-form"
+        class="mt-4 space-y-4"
       >
         <div>
           <label class="block text-gray-700">Email</label>
@@ -50,7 +50,6 @@
         </button>
       </form>
 
-      <!-- Register Link -->
       <div class="mt-4 text-center">
         <p class="text-sm text-gray-600">
           Don't have an account?
@@ -99,7 +98,7 @@ async function submit() {
     authCookie.value = JSON.stringify(user);
     authStore.setUser(user);
 
-    router.push({ path: "/" });
+    await router.push({ path: "/" });
   } catch (err) {
     error.value = "Invalid email or password. Please try again.";
   }

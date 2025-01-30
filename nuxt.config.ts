@@ -8,12 +8,13 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
     },
   },
+  nitro: {
+    preset: "node-server", // or "vercel" / "cloudflare"
+  },
   build: {
     analyze: true, // This will give a detailed build analysis
   },
-  routeRules: {
-    "/login": { ssr: true },
-  },
+
   modules: [
     "@prisma/nuxt",
     "@nuxtjs/tailwindcss",

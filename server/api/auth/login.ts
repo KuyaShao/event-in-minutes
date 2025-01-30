@@ -30,9 +30,8 @@ export default defineEventHandler(async (event) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
+    path: "/",
   });
-
-  const cookieValue = getCookie(event, "auth");
 
   return {
     email: user.email,

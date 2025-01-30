@@ -8,13 +8,12 @@ export const useAuthStore = defineStore("auth", () => {
   const { getUser: getAuthUser } = useAuth();
   const authCookie = useCookie<User | null>("auth");
 
-  // ✅ Fix: Directly use `authCookie.value` without parsing
   const user = ref<User | null>(
     process.server ? null : authCookie.value ?? getAuthUser()
   );
 
   const isLoggedIn = computed((): boolean => {
-    if (!user.value && process.client) {
+    if (!user.value) {
       user.value = authCookie.value ?? null;
     }
     return user.value !== null && user.value !== undefined;
@@ -29,7 +28,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const setUser = (userData: User) => {
     user.value = userData;
-    authCookie.value = userData; // ✅ Fix: Store object directly, no JSON.stringify
+    authCookie.value = userData;
   };
 
   const logout = async () => {
