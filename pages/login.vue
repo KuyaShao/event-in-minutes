@@ -98,7 +98,7 @@ async function submit() {
     authCookie.value = JSON.stringify(user);
     authStore.setUser(user);
 
-    router.push({ path: "/" });
+    await router.push({ path: "/" });
   } catch (err) {
     error.value = "Invalid email or password. Please try again.";
   }
