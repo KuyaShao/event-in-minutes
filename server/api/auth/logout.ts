@@ -1,5 +1,3 @@
-import { getCookie, setCookie } from "h3";
-
 export default defineEventHandler(async (event) => {
   const cookie = getCookie(event, "auth");
 

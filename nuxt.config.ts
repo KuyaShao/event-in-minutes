@@ -3,16 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["@/assets/css/main.css"],
   devtools: { enabled: true },
-  runtimeConfig: {
-    public: {
-      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
-    },
-  },
+
   nitro: {
     preset: "node-server", // or "vercel" / "cloudflare"
   },
   build: {
-    analyze: true, // This will give a detailed build analysis
+    analyze: true,
   },
 
   modules: [
@@ -23,7 +19,14 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/test-utils/module",
   ],
-
+  vite: {
+    resolve: {
+      alias: {
+        ".prisma/client/index-browser":
+          "./node_modules/.prisma/client/index-browser.js",
+      },
+    },
+  },
   fonts: {
     families: [{ name: "Inter", provider: "google" }],
   },

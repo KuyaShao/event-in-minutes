@@ -93,7 +93,7 @@ async function submit() {
         "Content-Type": "application/json",
       },
     });
-    refreshCookie("auth");
+
     const authCookie = useCookie("auth");
     authCookie.value = JSON.stringify(user);
     authStore.setUser(user);
