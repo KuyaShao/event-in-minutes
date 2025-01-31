@@ -5,7 +5,7 @@
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
 
-[functions]
+[[functions]]
   directory = "functions"  # Directory where your Netlify functions are stored
 
 [[redirects]]
