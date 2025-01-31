@@ -1,18 +1,21 @@
 [build]
-  command = "nuxt build"
+  command = "npm run build"
   publish = "dist"
 
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
+[functions]
+  directory = "functions"  # Directory where your Netlify functions are stored
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# If you're using API routes as serverless functions, specify the correct functions folder
 [[redirects]]
   from = "/api/*"
-  to = "/api/:splat"
-  status = 200
-  force = true
-
-[[functions]]
-  directory = "netlify/functions"
-
-[[redirects]]
-  from = "/"
-  to = "/index.html"
+  to = "/.netlify/functions/:splat"
   status = 200
   force = true
