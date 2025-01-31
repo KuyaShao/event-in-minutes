@@ -3,19 +3,14 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["@/assets/css/main.css"],
   devtools: { enabled: true },
-
-  build: {
-    analyze: true,
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
+    },
   },
-
-  modules: [
-    "@prisma/nuxt",
-    "@nuxtjs/tailwindcss",
-    "@nuxt/fonts",
-    "@nuxt/image",
-    "@pinia/nuxt",
-    "@nuxt/test-utils/module",
-  ],
+  build: {
+    analyze: process.env.NODE_ENV !== "production",
+  },
   vite: {
     resolve: {
       alias: {
@@ -24,6 +19,15 @@ export default defineNuxtConfig({
       },
     },
   },
+  modules: [
+    "@prisma/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxt/fonts",
+    "@nuxt/image",
+    "@pinia/nuxt",
+    "@nuxt/test-utils/module",
+  ],
+
   fonts: {
     families: [{ name: "Inter", provider: "google" }],
   },
