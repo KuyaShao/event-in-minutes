@@ -4,9 +4,6 @@ export default defineNuxtConfig({
   css: ["@/assets/css/main.css"],
   devtools: { enabled: true },
 
-  nitro: {
-    preset: "node-server", // or "vercel" / "cloudflare"
-  },
   build: {
     analyze: true,
   },
