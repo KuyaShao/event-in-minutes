@@ -413,10 +413,10 @@ async function getRouteRules(arg) {
   const path = typeof arg === "string" ? arg : arg.path;
   {
     useNuxtApp().ssrContext._preloadManifest = true;
-    const _routeRulesMatcher = toRouteMatcher(
+    const _routeRulesMatcher2 = toRouteMatcher(
       createRouter$1({ routes: (/* @__PURE__ */ useRuntimeConfig()).nitro.routeRules })
     );
-    return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
+    return defu({}, ..._routeRulesMatcher2.matchAll(path).reverse());
   }
 }
 function definePayloadReducer(name, reduce) {
@@ -577,7 +577,7 @@ const generateRouteKey$1 = (routeProps, override) => {
   const source = override ?? (matchedRoute == null ? undefined : matchedRoute.meta.key) ?? (matchedRoute && interpolatePath(routeProps.route, matchedRoute));
   return typeof source === "function" ? source(routeProps.route) : source;
 };
-function toArray(value) {
+function toArray$1(value) {
   return Array.isArray(value) ? value : [value];
 }
 const __nuxt_page_meta$4 = {
@@ -607,7 +607,7 @@ const _routes = [
     name: "admin-categories-name",
     path: "/admin/categories/:name()",
     meta: __nuxt_page_meta$4,
-    component: () => import('./_name_-CDzR6cPN.mjs')
+    component: () => import('./_name_-BCYvtRkg.mjs')
   },
   {
     name: "admin-create-post",
@@ -624,24 +624,24 @@ const _routes = [
   {
     name: "article-id",
     path: "/article/:id()",
-    component: () => import('./_id_-DoZftjIj.mjs')
+    component: () => import('./_id_-D1FV2fNH.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-q6v418Jw.mjs')
+    component: () => import('./index-xsi8RUM0.mjs')
   },
   {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./login-D7EgUnk9.mjs')
+    component: () => import('./login-0rINn5Vr.mjs')
   },
   {
     name: "register",
     path: "/register",
     meta: __nuxt_page_meta,
-    component: () => import('./register-Ce7At0MH.mjs')
+    component: () => import('./register-DF1qvvdX.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -768,8 +768,8 @@ const globalMiddleware = [
   manifest_45route_45rule
 ];
 const namedMiddleware = {
-  admin: () => import('./admin-7uSWRDxK.mjs'),
-  auth: () => import('./auth-tK2IXajz.mjs')
+  admin: () => import('./admin-BA8oX69d.mjs'),
+  auth: () => import('./auth-Bdhmmzn8.mjs')
 };
 const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:router",
@@ -779,7 +779,7 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
     let __temp, __restore;
     let routerBase = (/* @__PURE__ */ useRuntimeConfig()).app.baseURL;
     const history = ((_a = routerOptions.history) == null ? undefined : _a.call(routerOptions, routerBase)) ?? createMemoryHistory(routerBase);
-    const routes = routerOptions.routes ? ([__temp, __restore] = executeAsync(() => routerOptions.routes(_routes)), __temp = await __temp, __restore(), __temp) ?? _routes : _routes;
+    const routes2 = routerOptions.routes ? ([__temp, __restore] = executeAsync(() => routerOptions.routes(_routes)), __temp = await __temp, __restore(), __temp) ?? _routes : _routes;
     let startPosition;
     const router = createRouter({
       ...routerOptions,
@@ -800,9 +800,9 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
         }
       },
       history,
-      routes
+      routes: routes2
     });
-    handleHotUpdate(router, routerOptions.routes ? routerOptions.routes : (routes2) => routes2);
+    handleHotUpdate(router, routerOptions.routes ? routerOptions.routes : (routes22) => routes22);
     nuxtApp.vueApp.use(router);
     const previousRoute = shallowRef(router.currentRoute.value);
     router.afterEach((_to, from) => {
@@ -883,7 +883,7 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
           if (!componentMiddleware) {
             continue;
           }
-          for (const entry2 of toArray(componentMiddleware)) {
+          for (const entry2 of toArray$1(componentMiddleware)) {
             middlewareEntries.add(entry2);
           }
         }
@@ -995,6 +995,10 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
+function useRequestEvent(nuxtApp = useNuxtApp()) {
+  var _a;
+  return (_a = nuxtApp.ssrContext) == null ? undefined : _a.event;
+}
 const plugin = /* @__PURE__ */ defineNuxtPlugin({
   name: "pinia",
   setup(nuxtApp) {
@@ -1014,6 +1018,11 @@ const plugin = /* @__PURE__ */ defineNuxtPlugin({
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:global-components"
 });
+const prerender_server_LXx1wM9sKF = /* @__PURE__ */ defineNuxtPlugin(async () => {
+  {
+    return;
+  }
+});
 const plugins = [
   payloadPlugin,
   unhead_KgADcZ0jPj,
@@ -1021,10 +1030,11 @@ const plugins = [
   plugin_wnHB2iVUV4,
   revive_payload_server_eJ33V7gbc6,
   plugin,
-  components_plugin_KR1HBZs4kY
+  components_plugin_KR1HBZs4kY,
+  prerender_server_LXx1wM9sKF
 ];
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-BxiARjBE.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-BUPUBlZe.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -1291,7 +1301,7 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = undefined;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-B6_lVekf.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-_b7NNaJy.mjs'));
     const _Error = defineAsyncComponent(() => import('./error-500-D42I-uAT.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1373,5 +1383,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, useRuntimeConfig as a, asyncDataDefaults as b, createError as c, defineNuxtRouteMiddleware as d, entry$1 as default, useRouter as e, nuxtLinkDefaults as f, resolveRouteObject as g, injectHead as i, navigateTo as n, resolveUnrefHeadInput as r, useNuxtApp as u };
+export { _export_sfc as _, useNuxtApp as a, useRuntimeConfig as b, createError as c, asyncDataDefaults as d, entry$1 as default, defineNuxtRouteMiddleware as e, useRouter as f, nuxtLinkDefaults as g, resolveRouteObject as h, injectHead as i, navigateTo as n, resolveUnrefHeadInput as r, useRequestEvent as u };
 //# sourceMappingURL=server.mjs.map

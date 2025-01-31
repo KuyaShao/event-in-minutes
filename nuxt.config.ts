@@ -4,6 +4,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: "netlify",
   },
+  routeRules: {
+    "/": { prerender: true },
+    "/article/[id]": { prerender: true },
+  },
   css: ["@/assets/css/main.css"],
   devtools: { enabled: true },
   runtimeConfig: {
